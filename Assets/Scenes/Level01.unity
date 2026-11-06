@@ -1113,6 +1113,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 241963780ce8b7140ac376ebb4916a64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Health
+--- !u!4 &1425863651 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7497027648725633862, guid: 006685f6eb865604f8d169ba9a0efb55, type: 3}
+  m_PrefabInstance: {fileID: 1425863649}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1470604004
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1909,6 +1914,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Main Camera
       objectReference: {fileID: 0}
+    - target: {fileID: 8669680949841026043, guid: aad6bdc8fffa3324f823377fe83a34bb, type: 3}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 1425863651}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
