@@ -2,14 +2,6 @@ using UnityEngine;
 
 public enum PatrolMode { Loop, PingPong }
 
-// Lecture 07, part 1: patrol (slides 7-12) grown into slide 20's three states.
-//   PATROL: walk the waypoints.        Sees player inside chaseRange  -> CHASE
-//   CHASE : MoveTowards the player.    Player beyond giveUpRange      -> RETURN
-//   RETURN: walk back to the route.    Arrived (by distance)          -> PATROL
-//
-// On the guard: kinematic Rigidbody, a trigger collider, Hazard.cs, this script.
-// The waypoints are empty GameObjects at the guard's height. Do NOT make them
-// children of the guard, or they walk away with it.
 public class EnemyPatrol : MonoBehaviour
 {
     enum State { Patrol, Chase, Return }
@@ -17,7 +9,7 @@ public class EnemyPatrol : MonoBehaviour
     [SerializeField] Transform[] points;
     [SerializeField] PatrolMode mode = PatrolMode.Loop;
     [SerializeField] float patrolSpeed = 2f;
-    [SerializeField] float chaseSpeed = 3f;        // keep it BELOW the player's run speed
+    [SerializeField] float chaseSpeed = 3f;      
     [SerializeField] float chaseRange = 5f;
     [SerializeField] float giveUpRange = 8f;       // longer than chaseRange, so it can't flicker at one edge
     [SerializeField] float arriveDistance = 0.15f; // bigger than one step (speed x deltaTime)
@@ -62,13 +54,13 @@ public class EnemyPatrol : MonoBehaviour
     // ---- movement: MoveTowards on the ground plane, then face where we walk ----
     void WalkTo(Vector3 target, float speed)
     {
-        target.y = transform.position.y;                  // stay at the guard's height
+        target.y = transform.position.y;                  
         Vector3 toTarget = target - transform.position;
 
         transform.position = Vector3.MoveTowards(
             transform.position, target, speed * Time.deltaTime);
 
-        if (toTarget.sqrMagnitude > 0.0001f)              // LookRotation(zero) logs a warning
+        if (toTarget.sqrMagnitude > 0.0001f)              
         {
             Quaternion look = Quaternion.LookRotation(toTarget);
             transform.rotation = Quaternion.RotateTowards(
@@ -76,7 +68,7 @@ public class EnemyPatrol : MonoBehaviour
         }
     }
 
-    // ---- arrival and sight, both by distance (flat, ignoring height) ----
+    // ---- arrival and sight, both by distance----
     bool Arrived(Vector3 target) => Flat(transform.position, target) < arriveDistance;
 
     bool InRange(float range) =>
@@ -88,7 +80,7 @@ public class EnemyPatrol : MonoBehaviour
         return Vector3.Distance(a, b);
     }
 
-    // ---- the order the route is walked (slides 8-10) ----
+    // ---- the order the route is walked  ----
     int NextIndex()
     {
         if (points.Length < 2) return 0;

@@ -1,6 +1,4 @@
 using UnityEngine;
-
-// Lecture 06's collectible. Make it a prefab: Sphere/cylinder mesh, collider with Is Trigger ticked.
 public class Coin : MonoBehaviour
 {
     [SerializeField] int value = 1;
@@ -10,7 +8,7 @@ public class Coin : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (!other.CompareTag("Player")) return;     // built-in "Player" tag, case-sensitive
+        if (!other.CompareTag("Player")) return;     // built in "Player" tag, case sensitive
         GameManager.Instance.AddScore(value);
         Destroy(gameObject);
     }

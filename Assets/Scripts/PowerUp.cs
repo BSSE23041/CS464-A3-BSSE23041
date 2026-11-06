@@ -1,8 +1,5 @@
 using UnityEngine;
 
-// Lecture 07, part 3. The pickup is a trigger that reports and disappears.
-// The boost AND its timer belong to the player (PlayerController.BoostSpeed):
-// a coroutine started here would die with Destroy(gameObject), and the boost would never end.
 public class PowerUp : MonoBehaviour
 {
     [SerializeField] float multiplier = 1.6f;

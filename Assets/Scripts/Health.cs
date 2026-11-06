@@ -1,7 +1,6 @@
 using UnityEngine;
 
-// Lecture 07, part 4. On the player. Health owns the hearts AND the rule about how
-// often they can be lost (i-frames), so a hazard may ask every physics step.
+// Health owns the hearts AND the rule about how which can be lost (i frames), so a hazard may ask every physics step.
 public class Health : MonoBehaviour
 {
     [SerializeField] int max = 3;
@@ -21,7 +20,7 @@ public class Health : MonoBehaviour
     void Update()
     {
         if (blinkRenderer == null) return;
-        // blink 10x a second while protected; always visible otherwise
+        // blink 10x a second while protecte always visible otherwise
         blinkRenderer.enabled = !Invulnerable || ((int)(Time.time * 10f) % 2 == 0);
     }
 

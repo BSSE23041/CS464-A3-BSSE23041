@@ -1,15 +1,12 @@
 using System.Collections;
 using UnityEngine;
 
-// Lecture 04's Rigidbody controller + Lecture 07's BoostSpeed (slide 41/50)
-// + Assignment 03's Knockback (page 3).
-// On the player: Rigidbody, Sphere Collider, tag "Player", Health.
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
 {
     [Header("Movement")]
-    [SerializeField] float speed = 6f;            // top run speed in m/s: guards are tuned against this
-    [SerializeField] float jumpSpeed = 7f;        // ~2.5 m jump (v^2 / 2g)
+    [SerializeField] float speed = 6f;            // guards are tuned against this
+    [SerializeField] float jumpSpeed = 7f;        // ~2.5 m jump 
     [SerializeField] float groundCheckDistance = 0.6f; // sphere radius 0.5 + a little
     [SerializeField] LayerMask groundMask = ~0;
 
@@ -17,7 +14,7 @@ public class PlayerController : MonoBehaviour
     Vector3 input;
     bool jumpQueued;
 
-    // --- power-up state (the timer lives HERE, not on the pickup) ---
+    // --- power up state  ---
     float speedMultiplier = 1f;
     Coroutine boost;
 
@@ -70,16 +67,16 @@ public class PlayerController : MonoBehaviour
         Physics.Raycast(transform.position, Vector3.down, groundCheckDistance,
                         groundMask, QueryTriggerInteraction.Ignore);
 
-    // ---------- Assignment 03, part B: knockback the controller keeps ----------
+    // ---------- knockback the controller keeps ----------
     public void Knockback(Vector3 push, float seconds)
     {
         Vector3 v = rb.linearVelocity;
-        rb.linearVelocity = new Vector3(0f, v.y, 0f);       // same throw standing or running
+        rb.linearVelocity = new Vector3(0f, v.y, 0f);      
         rb.AddForce(push, ForceMode.Impulse);                // one kick, divided by mass
         noControlUntil = Time.time + seconds;
     }
 
-    // ---------- Lecture 07, part 3: the boost ----------
+   
     // RULE FOR A SECOND PICKUP: REFRESH. The newest pickup wins and the clock restarts:
     // stop the running coroutine, then start a new one. Two 5 s pickups 3 s apart end at 8 s.
     public void BoostSpeed(float multiplier, float seconds)
@@ -96,7 +93,7 @@ public class PlayerController : MonoBehaviour
         boost = null;
     }
 
-    // Called by the GameManager on a respawn: the new life starts still, and un-boosted.
+    // Called by the GameManager on a respawn: the new life starts still, and un boosted.
     public void ResetMotion()
     {
         if (boost != null) { StopCoroutine(boost); boost = null; }

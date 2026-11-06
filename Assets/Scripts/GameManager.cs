@@ -3,14 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-// Lecture 06's GameManager + Lecture 07's lives, Respawn and Lose.
-// One per level (make it a prefab; it keeps its NUMBERS, so reassign the texts,
-// panels, player and respawn point in each scene).
-//
-// How a level is won or lost, all decided HERE:
-//   Collect all   : hasGoal = false, win in AddScore when score >= targetScore
-//   Reach the goal: hasGoal = true,  win in ReachGoal() if score >= targetScore
-//   Lose          : lives; Lose when the last one goes
+
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
@@ -29,10 +22,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] Transform respawnPoint;
     [SerializeField] TMP_Text scoreText;
     [SerializeField] TMP_Text livesText;
-    [SerializeField] TMP_Text messageText;      // optional: "Collect 2 more coins!"
-    [SerializeField] TMP_Text loseReasonText;   // optional, on the lose panel
+    [SerializeField] TMP_Text messageText;      //  "Collect 2 more coins!"
+    [SerializeField] TMP_Text loseReasonText;   // on the lose panel
     [SerializeField] GameObject winPanel, losePanel;
-    [SerializeField] GameObject nextLevelButton; // optional, hidden on the last level
+    [SerializeField] GameObject nextLevelButton; //  hidden on the last level
 
     int score;
     bool ended, respawning;
@@ -89,7 +82,7 @@ public class GameManager : MonoBehaviour
     }
 
     // ---------------- losing a life ----------------
-    // Called by Health (hearts gone) and by KillZone (fell off).
+    // Called by Health and by KillZone.
     public void PlayerDied()
     {
         if (ended || respawning) return;
@@ -102,7 +95,7 @@ public class GameManager : MonoBehaviour
     IEnumerator Respawn()
     {
         respawning = true;
-        // A beat first: a respawn inside the hit lets the queued knockback slide you away.
+        // a respawn inside the hit lets the queued knockback slide away.
         yield return new WaitForSeconds(respawnDelay);
 
         Rigidbody body = player.GetComponent<Rigidbody>();

@@ -1,10 +1,9 @@
 using System.Collections;
 using UnityEngine;
 
-// Lecture 07, part 2: ONE script for every danger.
-//   Spikes  : Box Collider (Is Trigger), no Rigidbody, damage 1, restTime = 0
-//   Guard   : Capsule Collider (Is Trigger) + kinematic Rigidbody, damage 1, restTime = 0
-//   Crusher : Box Collider (Is Trigger), damage 2, restTime > 0, a 'warning' child and a 'slab' child
+//   Spikes  
+//   Guard   
+//   Crusher 
 public class Hazard : MonoBehaviour
 {
     [SerializeField] int damage = 1;
@@ -14,10 +13,10 @@ public class Hazard : MonoBehaviour
     [Header("Timed hazard (crusher). Leave restTime at 0 for an always-on hazard.")]
     [SerializeField] float restTime = 0f;      // collider OFF, safe
     [SerializeField] float warnTime = 0.7f;    // warning ON, still safe (>= 0.5 s or it's unfair)
-    [SerializeField] float strikeTime = 0.4f;  // collider ON, hurts
+    [SerializeField] float strikeTime = 0.4f;  // loses life
     [SerializeField] float startOffset = 0f;   // wait this long first, so two crushers can alternate
     [SerializeField] GameObject warning;       // child that lights up during warnTime
-    [SerializeField] GameObject slab;          // child shown during the strike (visual only, no collider)
+    [SerializeField] GameObject slab;          // child shown during the strike
 
     Collider zone;
 
@@ -25,7 +24,7 @@ public class Hazard : MonoBehaviour
 
     IEnumerator Start()
     {
-        if (restTime <= 0f) yield break;       // static hazard: nothing to schedule
+        if (restTime <= 0f) yield break;       // static hazard
 
         if (startOffset > 0f)
         {
@@ -50,17 +49,17 @@ public class Hazard : MonoBehaviour
         }
     }
 
-    // Every physics step while overlapping. Health's i-frames decide how often it lands.
+    // Every physics step while overlapping. Health's i frames decide how often it lands.
     void OnTriggerStay(Collider other)
     {
         if (!other.TryGetComponent(out Health health)) return;
         if (!health.TakeDamage(damage)) return;      // no hit, no knockback
 
-        // Away from the nearest point of the hazard, so a long row of spikes throws you clear of it.
+        // Away from the nearest point of the hazard, so a long row of spikes throws clear of it.
         Vector3 from = other.transform.position;
         Vector3 away = from - zone.ClosestPoint(from);
-        if (away.sqrMagnitude < 0.0001f) away = from - transform.position;   // centre is inside: use the middle
-        away.y = 0f;                                  // flat: a hit never launches you upward
+        if (away.sqrMagnitude < 0.0001f) away = from - transform.position;   
+        away.y = 0f;                                  
         if (away.sqrMagnitude < 0.0001f) away = transform.right;
         Vector3 push = away.normalized * knockback;
 
