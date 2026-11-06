@@ -48,6 +48,6 @@ In my code he boost timer restarts. In `PlayerController.BoostSpeed()`, the exis
 
 **4. Why can `==` fail as an arrival check, and when does it work?**
 
-Positions use floating point numbers, so movement can leave an object slightly short of a target or take it past the target. Exact float equality can therefore miss an arrival. Unity's `Vector3 ==` uses a very small tolerance rather than exact equality, but that tolerance can still be too small for a useful arrival check.
+Positions use floating point numbers, so movement can leave an object slightly before  a target or move it past the target. Exact float equality can therefore miss an arrival. Unity's `Vector3 ==` uses a very small tolerance rather than exact equality, but that tolerance can still be too small for a useful arrival check.
 
-Equality can work when movement places the object on the target, such as when `MoveTowards` reaches it and stops without overshooting. My `EnemyPatrol` code uses a distance check instead: the guard has arrived when it is within `arriveDistance` (0.15 m) of the waypoint. This gives a clear arrival margin instead of relying on equality.
+Equality can work when movement places the object on the target, such as when `MoveTowards` reaches it and stops without overshooting. My `EnemyPatrol` code uses a distance check instead: the guard has arrived when it is within `arriveDistance` (0.15 m) of the waypoint.That gives a clear arrival margin instead of relying on equality.
